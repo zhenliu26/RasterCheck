@@ -1,5 +1,7 @@
 ## set up
 import sys
+from osgeo import gdal
+from matplotlib import pyplot as plt
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import Qt, QUrl
 
@@ -31,7 +33,14 @@ class Appdemo(QMainWindow):
                 res_url = url.toString()
             url_list.append(res_url)
         print(url_list)
-    #To Do
+        for url in url_list:
+            img = gdal.Open(url)
+            bandarray = img.GetRasterBand(1).ReadAsArray()
+            fig = plt.gcf()
+            fig.canvas.manager.set_window_title(url.split('/')[-1])
+            plt.imshow(bandarray)
+            plt.axis('off')
+            plt.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
