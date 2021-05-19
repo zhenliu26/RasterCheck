@@ -1,8 +1,9 @@
 ## set up
 import sys
+import numpy as np
 from osgeo import gdal
 from matplotlib import pyplot as plt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QMessageBox
 from PyQt5.QtCore import Qt, QUrl, QRect
 
 class Appdemo(QMainWindow):
@@ -14,6 +15,8 @@ class Appdemo(QMainWindow):
         self.label_1.setAlignment(Qt.AlignCenter)
         self.label_1.setStyleSheet("border:2px dashed #242424;")
         self.label_1.setGeometry(QRect(10, 10, 180, 180))
+    # def property_message(self, stats_dic):
+    #     QMessageBox.about(self, "标题", "关于消息正文")
     ## To check whether the item has url. If it has, the event will be accepted. If not, the event will be ignored.
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -52,7 +55,17 @@ class Appdemo(QMainWindow):
             plt.imshow(bandarray)
             plt.axis('off')
             plt.show()
-
+            min = np.min(np.array(bandarray))
+            average = np.average(np.array(bandarray))
+            max = np.max(np.array(bandarray))
+            col = np.array(bandarray).shape[1]
+            row = np.array(bandarray).shape[0]
+            stats = "row: "+ str(row) + "\n" + "col: "+ str(col) + "\n" + "min: "+ str(min) + "\n" + "max: "+ str(max) + "\n" + "mean: "+ str(average) + "\n"
+            # self.stats_message(self, url.split('/')[-1],'hello')
+            QMessageBox.about(self, url.split('/')[-1], stats)
+    # def stats_message(self, title, body):
+    #     msg = QMessageBox.about(self, title, body)
+    #     x = msg.exec_()
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     demo = Appdemo()
