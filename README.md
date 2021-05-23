@@ -16,9 +16,23 @@ pip install gdal
 pip install matplotlib
 pip intsall PyInstaller
 ```
-If you cannot install anyone of them in your environment, I recommend the other way to install libraries. we can download .whl file in the [website](https://www.lfd.uci.edu/~gohlke/pythonlibs/). Please be careful of the version and requirements when you download the file. For example, GDAL‑3.0.4‑cp36‑cp36m‑win_amd64.whl incicates that the version of Gdal library is 3.0.4. cp36 indicates the version of Python should be 3.6. amd64 denotes the system type should be 64 bit. After download, write the command in the terminal to install the library. The command should be like:
+If you cannot install any of them in your environment, I recommend the other way to install libraries. we can download .whl file in the [website](https://www.lfd.uci.edu/~gohlke/pythonlibs/). Please be careful of the version and requirements when you download the file. For example, GDAL‑3.0.4‑cp36‑cp36m‑win_amd64.whl incicates that the version of Gdal library is 3.0.4. cp36 indicates the version of Python should be 3.6. amd64 denotes the system type should be 64 bit. After download, write the command in the terminal to install the library. The command should be like:
 ```
 pip install  C:/some-dir/some-file.whl
+```
+
+## Step 1. Design the Interface
+The first step is to design a user interface for the program. QT library is one of the most powerful GUI libraries. PyQt5 is a set of Python bindings for QT applications. There are two ways to design a interface.  
+First, you can use software named Qt Designer. Qt Designer is the Qt tool for designing and building graphical user interfaces (GUIs) with Qt Widgets. You can compose and customize your windows or dialogs in a what-you-see-is-what-you-get (WYSIWYG) manner, and test them using different styles and resolutions. The software can be downloaded at [this](https://build-system.fman.io/qt-designer-download). It also provides a detailed [tutorial](https://doc.qt.io/qt-5/gettingstarted.html).  
+The second way is to write code using the libary directly. That's what we do in this tutorial. PyQt5 has a set of useful modules. We are going to use two of them:
+* **QtWidgets**: The QtWidgets module contains classes that provide a set of UI elements to create classic desktop-style user interfaces.
+* **QtCore**: The QtCore module contains the core non-GUI functionality. This module is used for working with time, files and directories, various data types, streams, URLs, mime types, threads or processes.
+
+First, import the modules we need.
+```
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QMessageBox
+from PyQt5.QtCore import Qt, QUrl, QRect
 ```
 ## log
 0518: finish the main windows UI design. finish the showing function.1
