@@ -28,7 +28,7 @@ The second way is to write code using the libary directly. That's what we do in 
 * **QtWidgets**: The QtWidgets module contains classes that provide a set of UI elements to create classic desktop-style user interfaces.
 * **QtCore**: The QtCore module contains the core non-GUI functionality. This module is used for working with time, files and directories, various data types, streams, URLs, mime types, threads or processes.
 
-First, import the modules we need.
+First, import the modules we need. **QApplication** is to manages the GUI application’s control flow and main settings. It should be put in the main function to initialize and finalize the widgets. QMainWindow is
 ```
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QMessageBox
