@@ -35,7 +35,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QMessageBox
 from PyQt5.QtCore import Qt, QUrl, QRect
 ```
 
-Let's go through the code.
+Next, let's go through the code.
 ```
 class Appdemo(QMainWindow):
     def __init__(self):
@@ -52,6 +52,30 @@ if __name__ == "__main__":
     demo.show()
     sys.exit(app.exec())
 ```
+- We first generate a class which inherits the functionality from QMainWindow so that we can customize it in the class.
+  ```
+  super().__init__()
+  self.resize(200, 200)
+  self.setAcceptDrops(True)
+  ```
+  - The first code is to initialize the class by the initialization function in QMainWindow. The class Appdemo will have the same functions and appearance as the QMainWindow.
+  - The second code is to change the size of window to (200 px, 200 px)
+  - The third code is to enable the program to get the file when the user drop and put files on the program.
+- However, when the user opens the program, they don't know what to do next. That's why we add a label in the mainwindow. Here is the code.
+    ```
+    self.label_1 = QLabel("Drop files here", self)
+    self.label_1.setAlignment(Qt.AlignCenter)
+    self.label_1.setStyleSheet("border:2px dashed #242424;")
+    self.label_1.setGeometry(QRect(10, 10, 180, 180))
+    ```
+    - The first code is to create a label telling users to drop files in the window.
+    - The seond code is to make the label center in the window.
+    - The third code is to design the border for the label. The border style is "2 px wide, dashed line, and 6-digit color code is 242424".
+    - The last code is to locate the label box. (10, 10) is the coordinate of the upper left corner of the label box. (180, 180) is the size of label box.
+
+- In the main function, we create an instance of QApplication, passing in sys.argv, which is Python list containing the command line arguments passed to the application. Then, we create the class (an instance of a QMainWindow using the variable name demo) and show it. Finally, we call app.exec() to start up the event loop. It is good practice to pass on this exit code to sys.exit(). If not, the script will automatically exit after the last line of code has been executed.
+
+
 In the class Appdemo, we also need to add some functions to make the program react when the user drag files and drop them in the program.
 ```
     def dragEnterEvent(self, event):
