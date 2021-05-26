@@ -75,8 +75,11 @@ if __name__ == "__main__":
 
 - In the main function, we create an instance of QApplication, passing in sys.argv, which is Python list containing the command line arguments passed to the application. Then, we create the class (an instance of a QMainWindow using the variable name demo) and show it. Finally, we call app.exec() to start up the event loop. It is good practice to pass on this exit code to sys.exit(). If not, the script will automatically exit after the last line of code has been executed.
 
+Now when you run the code, you can see the interface like this.
 
-In the class Appdemo, we also need to add some functions to make the program react when the user drag files and drop them in the program.
+![Interface](image/interface.JPG)
+
+When you drag the files to that, it doesn't respond. That's why we need to write event functions. In the class Appdemo, we also need to add two parts of codes.
 ```
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -95,13 +98,12 @@ In the class Appdemo, we also need to add some functions to make the program rea
                 res_url = url.toString()
             url_list.append(res_url)
 ```
-## log
-0518: finish the main windows UI design. finish the showing function.1
+- As what we do in the last chunk of codes, the Appdemo class inherits from the QMainWindow class. In the QMainWindow class, there are some events to respond to "drag and drop files". What we should do is to rewrite them as our needs.
+- dragEnterEvent is the event which is sent to a widget when a drag and drop action enters it. The code in this event is to check whether it has url, which is the file path. If it has a url, the event will be accepted. If not, the event will be ignored.
+- dropEvent is the event which is sent when a drag and drop action is completed. The code in the function is to save all urls. If the file is local files, the code will convert the url to the path. If the file is not on the local computer, the url will be saved without any modification.
+- Notice that "plt.close('all')" is put at first. This code is to close all windows showing raster images when the user drop new files in the program. I will talk it in the next section.
 
-To do:
-1. property window after droping
-2. show multiple windows when drop more than one files.
-3. dash line label to notify drop files
+## Step 2. Read and Show Raster Files
 
 ## reference links
 1. The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
