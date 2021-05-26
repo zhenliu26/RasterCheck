@@ -28,11 +28,48 @@ The second way is to write code using the libary directly. That's what we do in 
 * **QtWidgets**: The QtWidgets module contains classes that provide a set of UI elements to create classic desktop-style user interfaces.
 * **QtCore**: The QtCore module contains the core non-GUI functionality. This module is used for working with time, files and directories, various data types, streams, URLs, mime types, threads or processes.
 
-First, import the modules we need. **QApplication** is to manages the GUI application’s control flow and main settings. It should be put in the main function to initialize and finalize the widgets. QMainWindow is
+First, import the modules we need. **QApplication** is to manages the GUI application’s control flow and main settings. It should be put in the main function to initialize and finalize the widgets. **QMainWindow** is the class for a framework for building an application's user interface. **QLabel** is the class for the texts in the interface. **QMessageBox** is the class for dialogs. This is a little popup window that you’ve often seen on your desktop. The modules imported from QtCore are supplements for the interface designing.
 ```
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QMessageBox
 from PyQt5.QtCore import Qt, QUrl, QRect
+```
+
+Let's go through the code.
+```
+class Appdemo(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.resize(200, 200)
+        self.setAcceptDrops(True)
+        self.label_1 = QLabel("Drop files here", self)
+        self.label_1.setAlignment(Qt.AlignCenter)
+        self.label_1.setStyleSheet("border:2px dashed #242424;")
+        self.label_1.setGeometry(QRect(10, 10, 180, 180))
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    demo = Appdemo()
+    demo.show()
+    sys.exit(app.exec())
+```
+In the class Appdemo, we also need to add some functions to make the program react when the user drag files and drop them in the program.
+```
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+    def dropEvent(self, event):
+        ## close all figures
+        plt.close('all')
+        event.accept()
+        url_list = []
+        for url in event.mimeData().urls():
+            if(url.isLocalFile()):
+                res_url = str(url.toLocalFile())
+            else:
+                res_url = url.toString()
+            url_list.append(res_url)
 ```
 ## log
 0518: finish the main windows UI design. finish the showing function.1

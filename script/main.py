@@ -43,7 +43,7 @@ class Appdemo(QMainWindow):
             else:
                 res_url = url.toString()
             url_list.append(res_url)
-        print(url_list)
+        # print(url_list)
         image_num = 1
         for url in url_list:
             img = gdal.Open(url)
