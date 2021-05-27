@@ -15,8 +15,6 @@ class Appdemo(QMainWindow):
         self.label_1.setAlignment(Qt.AlignCenter)
         self.label_1.setStyleSheet("border:2px dashed #242424;")
         self.label_1.setGeometry(QRect(10, 10, 180, 180))
-    # def property_message(self, stats_dic):
-    #     QMessageBox.about(self, "标题", "关于消息正文")
     ## To check whether the item has url. If it has, the event will be accepted. If not, the event will be ignored.
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
