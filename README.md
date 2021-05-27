@@ -104,6 +104,66 @@ When you drag the files to that, it doesn't respond. That's why we need to write
 - Notice that "plt.close('all')" is put at first. This code is to close all windows showing raster images when the user drop new files in the program. I will talk it in the next section.
 
 ## Step 2. Read and Show Raster Files
+Now, we have a great interface and we get the file paths for each raster. Then, we need to read those files and display them.
 
+We use Gdal to read images. Gdal is a translator library for raster and vector geospatial data formats. It can read files in multiple formats, like "tiff", "rst", and etc.
+
+Then we convert the data into arrays, so that we can easily calculate the statistics about the raster files easily by the Python library Numpy. Numpy is a library for the Python programming language, adding support for large, multi-dimensional arrays and matrices. It can quickly process the array-like data.
+
+At last, we use Matplotlib to show those data.
+
+The code should be added in the dropEvent.
+```
+def dropEvent(self, event):
+    ## close all figures
+    plt.close('all')
+    event.accept()
+    url_list = []
+    for url in event.mimeData().urls():
+        if(url.isLocalFile()):
+            res_url = str(url.toLocalFile())
+        else:
+            res_url = url.toString()
+        url_list.append(res_url)
+    image_num = 1
+    for url in url_list:
+        img = gdal.Open(url)
+        bandarray = img.GetRasterBand(1).ReadAsArray()
+        plt.figure(image_num)
+        image_num+=1
+        fig = plt.gcf()
+        fig.canvas.manager.set_window_title(url.split('/')[-1])
+        plt.imshow(bandarray)
+        plt.axis('off')
+        plt.show()
+        min = np.min(np.array(bandarray))
+        average = np.average(np.array(bandarray))
+        max = np.max(np.array(bandarray))
+        col = np.array(bandarray).shape[1]
+        row = np.array(bandarray).shape[0]
+        stats = "row: "+ str(row) + "\n" + "col: "+ str(col) + "\n" + "min: "+ str(min) + "\n" + "max: "+ str(max) + "\n" + "mean: "+ str(average) + "\n"
+        # self.stats_message(self, url.split('/')[-1],'hello')
+        QMessageBox.about(self, url.split('/')[-1], stats)
+```
+- Let's start with for loop. This loop will go through every path in the list.
+- gdal.Open() is used to open the image file. Then, we get the first band in the tiff file and read it as an array.
+- image_num is to count the number of files and set the differnt canvas for images by using plt.figure(image_num)
+- ```
+   fig = plt.gcf()
+   fig.canvas.manager.set_window_title(url.split('/')[-1])
+   plt.imshow(bandarray)
+   plt.axis('off')
+   plt.show()
+  ```
+  The code here is to show the raster image without axes and set the title as the file name.
+- ```
+   min = np.min(np.array(bandarray))
+   average = np.average(np.array(bandarray))
+   max = np.max(np.array(bandarray))
+   col = np.array(bandarray).shape[1]
+   row = np.array(bandarray).shape[0]
+  ```
+  Next, we calculate the minimum, maximum and mean values for the raster image. And, the row number and column number can be obtained from the shape property.
+- Remember, the module QMessageBox is used to show soem dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
 ## reference links
 1. The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
