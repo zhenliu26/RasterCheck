@@ -148,26 +148,36 @@ def dropEvent(self, event):
 - Let's start with for loop. This loop will go through every path in the list.
 - gdal.Open() is used to open the image file. Then, we get the first band in the tiff file and read it as an array.
 - image_num is to count the number of files and set the differnt canvas for images by using plt.figure(image_num)
-- ```
+
+The code below is to show the raster image without axes and set the title as the file name.
+```
    fig = plt.gcf()
    fig.canvas.manager.set_window_title(url.split('/')[-1])
    plt.imshow(bandarray)
    plt.axis('off')
    plt.show()
   ```
-  The code here is to show the raster image without axes and set the title as the file name.
-- ```
+Next, we calculate the minimum, maximum and mean values for the raster image. And, the row number and column number can be obtained from the shape property.
+
+ ```
    min = np.min(np.array(bandarray))
    average = np.average(np.array(bandarray))
    max = np.max(np.array(bandarray))
    col = np.array(bandarray).shape[1]
    row = np.array(bandarray).shape[0]
   ```
-  Next, we calculate the minimum, maximum and mean values for the raster image. And, the row number and column number can be obtained from the shape property.
-- ```
+  Remember, the module QMessageBox is used to show soem dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
+
+   ```
   stats = "row: "+ str(row) + "\n" + "col: "+ str(col) + "\n" + "min: "+ str(min) + "\n" + "max: "+ str(max) + "\n" + "mean: "+ str(average) + "\n"
   QMessageBox.about(self, url.split('/')[-1], stats)
   ```
-  Remember, the module QMessageBox is used to show soem dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
+  When you run the code, and drop files on the program. The program will show the raster. Like the figure below. You can see the message window showing the statistics about the raster.
+
+  ![openProgram](image/openProgram.png)
+
+  After you check the statistics, you put the cursor in the display window. The value of the pixel you are pointing at will be shown at the upper right corner.
+
+  ![openProgram](image/checkValue.png)
 ## reference links
 1. The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
