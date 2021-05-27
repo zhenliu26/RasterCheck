@@ -164,6 +164,10 @@ def dropEvent(self, event):
    row = np.array(bandarray).shape[0]
   ```
   Next, we calculate the minimum, maximum and mean values for the raster image. And, the row number and column number can be obtained from the shape property.
-- Remember, the module QMessageBox is used to show soem dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
+- ```
+  stats = "row: "+ str(row) + "\n" + "col: "+ str(col) + "\n" + "min: "+ str(min) + "\n" + "max: "+ str(max) + "\n" + "mean: "+ str(average) + "\n"
+  QMessageBox.about(self, url.split('/')[-1], stats)
+  ```
+  Remember, the module QMessageBox is used to show soem dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
 ## reference links
 1. The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
