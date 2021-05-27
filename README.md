@@ -179,5 +179,10 @@ Next, we calculate the minimum, maximum and mean values for the raster image. An
   After you check the statistics, you put the cursor in the display window. The value of the pixel you are pointing at will be shown at the upper right corner.
 
   ![openProgram](image/checkValue.png)
+## Step 3. Pack Up the code
+The next step for us is to convert the code into an excutable program. The python library PyInstaller PyInstaller freezes (packages) Python applications into stand-alone executables, under Windows, GNU/Linux, Mac OS X, and etc. Back to the terminal, type this
+```angular2html
+pyinstaller -w relative_path_of_your_main_script
+```
 ## reference links
 1. The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
