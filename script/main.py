@@ -21,15 +21,6 @@ class Appdemo(QMainWindow):
             event.accept()
         else:
             event.ignore()
-    # def dragLeaveEvent(self, event):
-    #     if event.mimeData().hasUrls():
-    #         self.label_1.setHidden(False)
-    # def dragMoveEvent(self, event):
-    #     if event.mimeData().hasUrls():
-    #         event.setDropAction(Qt.Copyction)
-    #         event.accept()
-    #     else:
-    #         event.ignore()
     def dropEvent(self, event):
         ## close all figures
         plt.close('all')
@@ -59,11 +50,8 @@ class Appdemo(QMainWindow):
             col = np.array(bandarray).shape[1]
             row = np.array(bandarray).shape[0]
             stats = "row: "+ str(row) + "\n" + "col: "+ str(col) + "\n" + "min: "+ str(min) + "\n" + "max: "+ str(max) + "\n" + "mean: "+ str(average) + "\n"
-            # self.stats_message(self, url.split('/')[-1],'hello')
             QMessageBox.about(self, url.split('/')[-1], stats)
-    # def stats_message(self, title, body):
-    #     msg = QMessageBox.about(self, title, body)
-    #     x = msg.exec_()
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     demo = Appdemo()
