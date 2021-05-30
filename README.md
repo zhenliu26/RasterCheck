@@ -193,7 +193,4 @@ That's the whole content of this tutorial. Hope this tutorial really helps and s
 1. Read files not only in the format of "TIFF" but other formats like "RST"
 2. Show the statistics in a better way, like histograms.
 
-Hope you can enjoy coding!
-
-## reference links
-When I make this tutorial, the link below really helps.  The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
+The code is in the script folder in the github and the final zipped file is [here](https://drive.google.com/file/d/1vnPZcRAx4pYqQQ-QNFXKCLSHrrBgC-yD/view?usp=sharing). Hope you can enjoy coding!
