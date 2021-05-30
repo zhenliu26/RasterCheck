@@ -4,25 +4,26 @@
 Have questions about this tutorial? Email me at: [zhenliu3@clarku.edu](zhenliu3@clarku.edu)
 
 ## Introduction
-Have you ever been in a situation that you only want to check a raster file but don't want to open a big software, like ArcGIS Map? If your answer is Yes, this light computer program is just what you need. The program can open a raster file quickly and the user can check the statistics of the file. The video below shows how the program works. The user drag the file and drop it in the program. The image and its statistics will be automatically displayed.
+Have you ever been in a situation that you only want to check a raster file but don't want to open a big software, like ArcGIS Map? If your answer is Yes, this light and simple computer program is just what you need. The program can open a raster file in the format of "TIFF" quickly and the user can check the statistics of the file. The video below shows how the program works. The user drag the file and drop it in the program. The image and its statistics will be automatically displayed.
 ![ResultAnimation.gif](image/ResultAnimation.gif)  
-In this tutorial, I will show you how to create it in Python.We are going to use several useful libraries in Pythons. There are PyQt5, Gdal, Matplotlib, and PyInstaller.
+In this tutorial, I will show you how to create it in Python. We are going to use several useful libraries in Python. There are PyQt5, Gdal, Matplotlib, and PyInstaller.
 
 ## Set up
-Before we start coding, we need to install the libraries we need. The most common way is to use **pip** command. Open the terminal, type the commands below to install the required libraries.
+Before we start coding, we need to install the libraries we need. The most common way is to use **pip** command. The [link](https://pip.pypa.io/en/stable/quickstart/) is the quick start for pip command. Open the terminal, type the commands below to install the required libraries.
 ```
 pip install PyQt5
 pip install gdal
 pip install matplotlib
 pip intsall PyInstaller
+pip install numpy
 ```
-If you cannot install any of them in your environment, I recommend the other way to install libraries. we can download .whl file in the [website](https://www.lfd.uci.edu/~gohlke/pythonlibs/). Please be careful of the version and requirements when you download the file. For example, GDAL‑3.0.4‑cp36‑cp36m‑win_amd64.whl incicates that the version of Gdal library is 3.0.4. cp36 indicates the version of Python should be 3.6. amd64 denotes the system type should be 64 bit. After download, write the command in the terminal to install the library. The command should be like:
+If you cannot install any of them in your environment, I recommend another method to install libraries. we can download .whl file in the [website](https://www.lfd.uci.edu/~gohlke/pythonlibs/). Please be careful of the version and requirements when you download the file. For example, GDAL‑3.0.4‑cp36‑cp36m‑win_amd64.whl incicates that the version of Gdal library is 3.0.4. cp36 indicates the version of Python should be 3.6. amd64 denotes the system type should be 64 bit. After download, write the command in the terminal to install the library. The command should be like:
 ```
 pip install  C:/some-dir/some-file.whl
 ```
 
 ## Step 1. Design the Interface
-The first step is to design a user interface for the program. QT library is one of the most powerful GUI libraries. PyQt5 is a set of Python bindings for QT applications. There are two ways to design a interface.  
+The first step is to design a user interface for the program. QT library is one of the most powerful GUI libraries. PyQt5 is a set of Python bindings for QT applications in Python. There are two ways to design a interface.  
 First, you can use software named Qt Designer. Qt Designer is the Qt tool for designing and building graphical user interfaces (GUIs) with Qt Widgets. You can compose and customize your windows or dialogs in a what-you-see-is-what-you-get (WYSIWYG) manner, and test them using different styles and resolutions. The software can be downloaded at [this](https://build-system.fman.io/qt-designer-download). It also provides a detailed [tutorial](https://doc.qt.io/qt-5/gettingstarted.html).  
 The second way is to write code using the libary directly. That's what we do in this tutorial. PyQt5 has a set of useful modules. We are going to use two of them:
 * **QtWidgets**: The QtWidgets module contains classes that provide a set of UI elements to create classic desktop-style user interfaces.
@@ -99,20 +100,20 @@ When you drag the files to that, it doesn't respond. That's why we need to write
             url_list.append(res_url)
 ```
 - As what we do in the last chunk of codes, the Appdemo class inherits from the QMainWindow class. In the QMainWindow class, there are some events to respond to "drag and drop files". What we should do is to rewrite them as our needs.
-- dragEnterEvent is the event which is sent to a widget when a drag and drop action enters it. The code in this event is to check whether it has url, which is the file path. If it has a url, the event will be accepted. If not, the event will be ignored.
-- dropEvent is the event which is sent when a drag and drop action is completed. The code in the function is to save all urls. If the file is local files, the code will convert the url to the path. If the file is not on the local computer, the url will be saved without any modification.
+- "dragEnterEvent" is the event which is sent to a widget when a drag and drop action enters it. The code in this event is to check whether it has url, which is the file path. If it has a url, the event will be accepted. If not, the event will be ignored.
+- "dropEvent" is the event which is sent when a drag and drop action is completed. The code in the function is to save all urls. If the file is local files, the code will convert the url to the path. If the file is not on the local computer, the url will be saved without any modification.
 - Notice that "plt.close('all')" is put at first. This code is to close all windows showing raster images when the user drop new files in the program. I will talk it in the next section.
 
 ## Step 2. Read and Show Raster Files
-Now, we have a great interface and we get the file paths for each raster. Then, we need to read those files and display them.
+Now, we have a great interface and we get the file paths for each raster we drag. Then, we need to read those files and display them.
 
-We use Gdal to read images. Gdal is a translator library for raster and vector geospatial data formats. It can read files in multiple formats, like "tiff", "rst", and etc.
+We use Gdal to read images. Gdal is a translator library for raster and vector geospatial data formats. It can read files in multiple formats, like "tiff", "rst", and etc. If you are not familiar with Gdal, you can check the tutorial [here](https://gdal.org/tutorials/raster_api_tut.html).
 
-Then we convert the data into arrays, so that we can easily calculate the statistics about the raster files easily by the Python library Numpy. Numpy is a library for the Python programming language, adding support for large, multi-dimensional arrays and matrices. It can quickly process the array-like data.
+Then, we convert the data into arrays, so that we can easily calculate the statistics about the raster files easily by the Python library Numpy. Numpy is a library for the Python programming language, adding support for large, multi-dimensional arrays and matrices. It can quickly process the array-like data.
 
-At last, we use Matplotlib to show those data.
+At last, we use Matplotlib to show those data. Matplotlib provides the window with some useful functions to show images.
 
-The code should be added in the dropEvent.
+The code should be added in "dropEvent".
 ```
 def dropEvent(self, event):
     ## close all figures
@@ -145,9 +146,10 @@ def dropEvent(self, event):
         # self.stats_message(self, url.split('/')[-1],'hello')
         QMessageBox.about(self, url.split('/')[-1], stats)
 ```
-- Let's start with for loop. This loop will go through every path in the list.
-- gdal.Open() is used to open the image file. Then, we get the first band in the tiff file and read it as an array.
-- image_num is to count the number of files and set the differnt canvas for images by using plt.figure(image_num)
+- Like I talk, in the last step, we should close all windows showing rasters before users drop new ones. That why we need to put plt.close("all") at first.
+- Then, we go through every path in the list by using for loop.
+- In each loop, gdal.Open() is used to open the image file. Then, we get the first band in the tiff file and read it as an array.
+- image_num is to count the number of files and set the different canvas for images by using plt.figure(image_num)
 
 The code below is to show the raster image without axes and set the title as the file name.
 ```
@@ -157,7 +159,7 @@ The code below is to show the raster image without axes and set the title as the
    plt.axis('off')
    plt.show()
   ```
-Next, we calculate the minimum, maximum and mean values for the raster image. And, the row number and column number can be obtained from the shape property.
+Next, we calculate the minimum, maximum and mean values for the raster image. And, the row number and column number can be obtained from the shape property in Numpy.array.
 
  ```
    min = np.min(np.array(bandarray))
@@ -166,7 +168,7 @@ Next, we calculate the minimum, maximum and mean values for the raster image. An
    col = np.array(bandarray).shape[1]
    row = np.array(bandarray).shape[0]
   ```
-  Remember, the module QMessageBox is used to show soem dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
+  Remember, the module QMessageBox is used to show dialogs. We want to show the statistics about files before we check the image. That's why we activate a message box at the end of the event.
 
    ```
   stats = "row: "+ str(row) + "\n" + "col: "+ str(col) + "\n" + "min: "+ str(min) + "\n" + "max: "+ str(max) + "\n" + "mean: "+ str(average) + "\n"
@@ -180,9 +182,18 @@ Next, we calculate the minimum, maximum and mean values for the raster image. An
 
   ![openProgram](image/checkValue.png)
 ## Step 3. Pack Up the code
-The next step for us is to convert the code into an excutable program. The python library PyInstaller PyInstaller freezes (packages) Python applications into stand-alone executables, under Windows, GNU/Linux, Mac OS X, and etc. Back to the terminal, type this
+The next step for us is to convert the code into an excutable program. The python library PyInstaller freezes (packages) Python applications into stand-alone executables, under Windows, GNU/Linux, Mac OS X, and etc. Back to the terminal, type this
 ```angular2html
 pyinstaller -w relative_path_of_your_main_script
 ```
+The folder named "dist" will be created in the same folder. Find the folder with the same name as your python code. You can find a file with .exe extention in the folder. That's the launcher of the program. You can compress the folder and send the zipped file to your friends, so that they don't need to download any other software and are able to quickly check raster files!
+
+## Step 4. Improvement
+That's the whole content of this tutorial. Hope this tutorial really helps and starts your first step to create an executable program. However, as you can see, this program is just a prototype. You can improve the software in many ways, like
+1. Read files not only in the format of "TIFF" but other formats like "RST"
+2. Show the statistics in a better way, like histograms.
+
+Hope you can enjoy coding!
+
 ## reference links
-1. The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
+When I make this tutorial, the link below really helps.  The video shows how to use a drag and drop function in PyQt5. https://www.youtube.com/watch?v=KVEIW2htw0A
